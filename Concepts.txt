@@ -1,0 +1,35 @@
+So Authentication basically has two patterns which is the statefull and the stateless
+-> In the case of statefull node Authentication when the client is making a request to the server with
+its credential the  server check for its validity and then returns the client with an session Id which is unique to the client.
+Now with the help of this Session UID the client can make requests to the server and access the data they want,
+the server also store a trace of that ID during the Authentication casuse the server then uses it to search for the user
+and its access control.
+
+
+
+handling erros:
+SO we were getting a strange error about one of our route that the redirect url is not found
+// upon debugginng we came to know that any other new route which is structured like
+// localhost/something express was taking it as shortId if that new route is below our shortId route.
+The first fix was to move the newly created route above the /shortID this fixed the problem partially 
+Still now when we were hitting our new route we were getting the redirect url not found error cause 
+browsers would be hitting /favicon.ico automatically to find a icon in the tab and this route is being directed
+to the handleredirecturl function cause /favicon.ico is treated as shortID so adding this route before shortID
+helped to fix the problem in general.
+
+
+Server side rendering:
+Render the whole HTML page from the server.
+// in the production code it becomes so much difficult to write all of the html over here, so instead of this we can work with
+  // view engines. This would keep our code more clean and optimized.
+  // We would be using EJS in our scencerio.
+
+
+
+
+
+
+
+
+
+

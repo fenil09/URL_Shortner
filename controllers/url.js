@@ -18,7 +18,9 @@ async function GenerateshortURL(request, response){
         redirectURL: body.url,
         visithistory: []
     })
-    response.json({id : Idshort});
+    response.render('home',{
+      id : Idshort
+    });
 
 }
 
@@ -26,6 +28,8 @@ async function GenerateshortURL(request, response){
 // from the mongodb, once we get that shortID we would be updating the visithistory by entering the timestamp, meaning when was the url like the shorturl accessed. Once this is done
 // then we would be getting the original url associated with the shortID and redirecting the user to that original url again.
 async function HandleRedirect(request, response){
+
+  try{
     const shortId= request.params.shortId
     const entry = await urlmodel.findOneAndUpdate({
         shortId,
@@ -37,6 +41,12 @@ async function HandleRedirect(request, response){
         }
     });
     response.redirect(entry.redirectURL);
+    
+  }catch(error){
+    console.error("Error in processing your request",error);
+    response.status(500).json({error: "Internal Server Error"});
+  }
+    
 }
 
 // This function is quite simple, it is helping us to know how many times the url was clicked which is straight forward because we are just going to return the length
@@ -49,8 +59,19 @@ async function GetAnalytics(request, response){
   response.json({ clicks : siteobject.visithistory.length});
 }
 
+
+  async function handleEJSRendering(req,res){
+    const allurls = await urlmodel.find({});
+   return  res.render("home",{
+    url:allurls
+   });
+  }
+
+
+
 module.exports = {
     GenerateshortURL,
     HandleRedirect,
     GetAnalytics,
+    handleEJSRendering,
 }
