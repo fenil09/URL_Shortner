@@ -3,7 +3,9 @@
 const nanoid = require('shortid');
 
 const urlmodel = require('../models/url');
-
+const helpgettingID = require('../controllers/users');
+const usermodel = require('../models/users');
+const { default: mongoose } = require('mongoose');
 
 // In this function we would be checking for the url not to be empty if it is not empty then we would be createe a short ID first using the shortid package and then pushing
 // the shortID, redirectURL inside mongoDB.
@@ -16,13 +18,14 @@ async function GenerateshortURL(request, response){
     await urlmodel.create({
         shortId:Idshort,
         redirectURL: body.url,
-        visithistory: []
+        visithistory: [],
+        createdBy: request.user._id,
     })
     response.render('home',{
       id : Idshort
     });
 
-}
+} 
 
 // This function would be helping us to handle the redirect mechanism, so we would be first getting the shortID from the shorten URL and then would be finding that shortID,
 // from the mongodb, once we get that shortID we would be updating the visithistory by entering the timestamp, meaning when was the url like the shorturl accessed. Once this is done
@@ -61,9 +64,9 @@ async function GetAnalytics(request, response){
 
 
   async function handleEJSRendering(req,res){
-    const allurls = await urlmodel.find({});
-   return  res.render("home",{
-    url:allurls
+    const userurl = await urlmodel.find({createdBy: req.user._id});
+        return  res.render("home",{
+    url:userurl,
    });
   }
 

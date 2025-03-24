@@ -21,8 +21,14 @@ const urlschema = new mongoose.Schema({
             type:Number
         }
      }],
+     createdBy:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+     }
      
 },{timestamps: true}); // => This would be giving us the timestamps when are entire schema is created using the object in mongoDB.
+
+
 
 const url = mongoose.model('url', urlschema);
 module.exports = url;

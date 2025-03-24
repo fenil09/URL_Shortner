@@ -26,6 +26,20 @@ Render the whole HTML page from the server.
 
 
 
+statefull NodeJS Authentication
+So client would be sending the server with its credentials and in return the server would
+return us with a unique ID called the session ID, and it also keep a record of this ID.
+Now whenever we are making an request after the authentication to access any part of the server we need to send the
+unique id with the request as well. The server then matches the ID and grants our request.
+This adds an extra layer of security cause sometimes some user wont be having access to some part of the server which can be distinguished
+using these unique ID which comes with the request from the users.
+
+
+// Flow of Authentication in express
+
+So the client would be sending a request for authentication, it goes to the middle ware which would check for the UID,
+if it is not present then it would deny the request instead of forwarding it further.
+
 
 
 
