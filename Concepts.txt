@@ -40,6 +40,9 @@ using these unique ID which comes with the request from the users.
 So the client would be sending a request for authentication, it goes to the middle ware which would check for the UID,
 if it is not present then it would deny the request instead of forwarding it further.
 
+Problem in Statefull authentication is that if the server restarts then the user would be logged out, the state is not maintained or preserved.
+The other problem is that it takes memory on the server, cause we have limited memory on the server so we need to be carefull while using the memory on the server.
+
 
 
 

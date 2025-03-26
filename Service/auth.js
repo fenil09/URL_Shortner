@@ -3,14 +3,19 @@
 
 // we would be storing the ID of the respected user inside the hashmap to maintain the session based user data.
 
-const sessionIDToUserMAP = new Map();
 
-function setUser(id,user){
-    sessionIDToUserMAP.set(id,user);
+const jwt = require('jsonwebtoken');
+const secret = "Fenil09"
+function setUser(user){
+  const payload= {
+    _id: user._id,
+    email : user.email,
+  }
+  return jwt.sign(payload,secret);
 }
 
-function getuser(id){
-    return sessionIDToUserMAP.get(id);
+function getuser(token){
+    return jwt.verify(token,secret);
 }
 
 module.exports = {
